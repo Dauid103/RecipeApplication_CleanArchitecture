@@ -1,0 +1,30 @@
+﻿@model RecipeViewModel
+@{
+    ViewBag.Title = "Detaljer";
+}
+
+<div class="row">
+    <div class="col-md-7">
+        <img src="~/img/@(Model.PictureId).jpg" class="img-fluid" alt="@Model.Name" style="margin-bottom: 10px; margin-top: 10px; border: 2px solid #212529" />
+        <h2>@Model.Name</h2>
+
+        <hr />
+
+        <form asp-controller="Recipe" asp-action="Delete" asp-route-id="@Model.RecipeId">
+            <button type="submit" class="btn btn-outline-dark" style="margin-top: 10px; margin-bottom: 20px; float: right;"><i class="fa fa-trash-o"></i> Radera</button>
+        </form>
+
+        <a style=" margin-top: 10px; margin-right:5px; margin-bottom: 20px; float:right;" asp-action="Edit" asp-route-id="@Model.RecipeId" class="btn btn-outline-dark"><i class="fa fa-pencil"></i> Ändra</a>
+
+        <a class="btn btn-outline-dark" asp-action="AddRecipeToList" asp-route-id="@Model.RecipeId" style="margin-top: 10px; margin-bottom: 20px;"><i class="fa fa-shopping-basket"></i> Lägg till</a>
+
+        <h3>Beskrivning</h3>
+        <hr />
+        <p>Kategori: @Model.RecipeCategory.Name</p>
+        <p>@Model.Description</p>
+        <hr />
+    </div>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-outline-dark">Tillbaka till lista</a>
+</div>

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<RecipeViewModel>
+@{
+    ViewBag.Title = "Recept";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Index" method="get" style="margin-top: 20px;">
+            <div class="input-group">
+                <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Sök Recept" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    @*<button class="btn btn-outline-dark" type="button">Sök</button>*@
+                    <input type="submit" value="Sök" class="btn btn-outline-dark" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4" style = "margin-top: 20px;" >
+        @using (Html.BeginForm("Index", "Recipe", FormMethod.Get))
+        {
+        <div class="input-group">
+            @Html.DropDownList("CategoryName", new SelectList(ViewBag.Categories), string.Empty, new { @class = "form-control" })
+            <div class="input-group-append">
+                <input type="submit" value="Filtrera" class="btn btn-outline-dark" />
+            </div>
+            </div>
+            }  
+        </div>
+ </div>
+
+    <hr />
+    <a class="btn btn-outline-dark" asp-controller="Recipe" asp-action="Create" style="margin-top: 10px; margin-bottom: 20px;"><i class="fa fa-cutlery"></i>   Nytt recept</a>
+    <p style="margin-top: 10px; float:right">Antal Recept: @Model.Count()</p>
+    <div class="row">
+        @foreach (var p in Model)
+        {
+            <div class="col-md-4">
+                <div class="border rounded" style="margin-top: 4px; margin-bottom: 8px; background-color: #212529">
+                    <a asp-controller="Recipe" asp-action="Details" asp-route-id="@p.RecipeId" style="text-decoration: none;">
+                        <img src="~/img/@(p.PictureId).jpg" class="img-fluid" alt="@p.Name" style="margin-bottom: 10px;" />
+                    </a>
+                       
+                    <div style="margin-left:5px;">
+                        <h5 style="color:white;">@p.Name</h5>
+
+                        <p style="color:white;">
+                            Kategori: @p.RecipeCategory.Name
+                            <br />
+                            Pris: @p.Price Kr
+                        </p>
+                    </div>
+
+                    <div>
+                        <a style="color:white; width: 100%; margin-top: 6px;" asp-controller="Recipe" asp-action="AddRecipeToList" asp-route-id="@p.RecipeId" class="btn btn-dark"><i class="fa fa-shopping-basket"></i> &nbsp; Lägg Till</a>
+                    </div>
+                </div>
+
+            </div>
+
+        }
+    </div>

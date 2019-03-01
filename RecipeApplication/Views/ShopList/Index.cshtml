@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ShopListViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div id="pageHeader" style="margin-top:20px; margin-bottom: 20px;">
+    <a class="btn btn-outline-dark" asp-controller="ShopList" asp-action="Create" style="float:right"><i class="fa fa-shopping-basket"></i>   Ny Inköpslista</a>
+    <h2>Inköpslistor</h2>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Namn</th>
+            <th>Skapad</th>
+            <th>Recept</th>
+            <th>Pris</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a id="shopListName" asp-action="Details" asp-route-id="@item.ShopListId" style="text-decoration: none; color: #75863e"><b>@Html.DisplayFor(modelItem => item.Name)</b></a>
+                </td>
+                <td>
+                    @item.CreatedDate.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @item.ListItems.Count()
+                </td>
+                <td>
+                    @{
+                        int sum = 0;
+                        foreach (var listItem in item.ListItems)
+                        {
+                            sum += listItem.Recipe.Price;
+                        }
+                    }
+                    @sum
+                </td>
+
+                <td>
+                    <form asp-controller="ShopList" asp-action="Delete" asp-route-id="@item.ShopListId">
+                        <button type="submit" class="btn btn-outline-dark" style="margin-bottom: 3px; float: right;"><i class="fa fa-trash-o"></i></button>
+                    </form>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
